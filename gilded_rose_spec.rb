@@ -20,13 +20,13 @@ describe GildedRose do
   describe '#update_quality' do
     let(:sell_in) { 10 }
     let(:quality) { 20 }
+    let(:sell_in_change) { -1 }
     let(:item) { Item.new(name, sell_in, quality) }
     let(:items) { [item] }
     subject! { described_class.new(items).update_quality }
 
     describe 'basic item' do
       let(:name) { 'basic item' }
-      let(:sell_in_change) { -1 }
       let(:quality_change) { -1 }
       let(:min_quality) { 0 }
 
@@ -51,7 +51,6 @@ describe GildedRose do
 
     describe 'Aged Brie' do
       let(:name) { 'Aged Brie' }
-      let(:sell_in_change) { -1 }
       let(:quality_change) { 1 }
       let(:max_quality) { 50 }
 
@@ -72,6 +71,39 @@ describe GildedRose do
       let(:quality_change) { 0 }
 
       it_behaves_like 'an item'
+    end
+
+    describe 'Backstage passes to a TAFKAL80ETC concert' do
+      let(:name) { 'Backstage passes to a TAFKAL80ETC concert' }
+
+      context 'when more than 10 days until concert' do
+        let(:sell_in) { 11 }
+        let(:quality_change) { 1 }
+
+        it_behaves_like 'an item'
+      end
+
+      context 'when 10 days or less' do
+        let(:sell_in) { 10 }
+        let(:quality_change) { 2 }
+
+        it_behaves_like 'an item'
+      end
+
+      context 'when 5 days or less' do
+        let(:sell_in) { 5 }
+        let(:quality_change) { 3 }
+
+        it_behaves_like 'an item'
+      end
+
+      context 'when after concert' do
+        let(:sell_in) { 0 }
+        let(:quality) { 0 }
+        let(:quality_change) { 0 }
+
+        it_behaves_like 'an item'
+      end
     end
   end
 end
