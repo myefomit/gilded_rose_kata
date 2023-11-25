@@ -2,46 +2,66 @@
 
 require File.join(File.dirname(__FILE__), 'gilded_rose')
 
+shared_examples 'an item' do
+  it 'does not change the name' do
+    expect(item.name).to eq name
+  end
+
+  it 'changes sell_in' do
+    expect(item.sell_in).to eq(sell_in + sell_in_change)
+  end
+
+  it 'changes quality' do
+    expect(item.quality).to eq(quality + quality_change)
+  end
+end
+
 describe GildedRose do
   describe '#update_quality' do
-    let(:sell_in_decrease) { 1 }
+    let(:sell_in) { 10 }
+    let(:quality) { 20 }
+    let(:item) { Item.new(name, sell_in, quality) }
     let(:items) { [item] }
     subject! { described_class.new(items).update_quality }
 
     describe 'basic item' do
-      let(:quality_decrease) { 1 }
+      let(:name) { 'basic item' }
+      let(:sell_in_change) { -1 }
+      let(:quality_change) { -1 }
       let(:min_quality) { 0 }
 
-      let(:name) { 'basic item' }
-      let(:sell_in) { 10 }
-      let(:quality) { 20 }
-      let(:item) { Item.new(name, sell_in, quality) }
-
-      it 'does not change the name' do
-        expect(items.first.name).to eq name
-      end
-
-      it 'decreases item sell_in' do
-        expect(items.first.sell_in).to eq(sell_in - sell_in_decrease)
-      end
-
-      it 'decreases item quality' do
-        expect(items.first.quality).to eq(quality - quality_decrease)
-      end
+      it_behaves_like 'an item'
 
       context 'when sell by date has passed' do
         let(:sell_in) { 0 }
 
         it 'decreases quality twice as fast' do
-          expect(items.first.quality).to eq(quality - quality_decrease * 2)
+          expect(item.quality).to eq(quality + quality_change * 2)
         end
       end
 
-      context 'when quality is the minimal value' do
+      context 'when min quality' do
         let(:quality) { min_quality }
 
-        it 'does not set quality to lower value' do
-          expect(items.first.quality).to eq(min_quality)
+        it 'does not decrease quality' do
+          expect(item.quality).to eq(min_quality)
+        end
+      end
+    end
+
+    describe 'Aged Brie' do
+      let(:name) { 'Aged Brie' }
+      let(:sell_in_change) { -1 }
+      let(:quality_change) { 1 }
+      let(:max_quality) { 50 }
+
+      it_behaves_like 'an item'
+
+      context 'when max quality' do
+        let(:quality) { max_quality }
+
+        it 'does not increase quality' do
+          expect(item.quality).to eq(max_quality)
         end
       end
     end
