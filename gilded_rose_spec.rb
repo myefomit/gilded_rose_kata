@@ -65,5 +65,13 @@ describe GildedRose do
         end
       end
     end
+
+    describe 'Sulfuras, Hand of Ragnaros' do
+      let(:name) { 'Sulfuras, Hand of Ragnaros' }
+      let(:sell_in_change) { 0 }
+      let(:quality_change) { 0 }
+
+      it_behaves_like 'an item'
+    end
   end
 end
