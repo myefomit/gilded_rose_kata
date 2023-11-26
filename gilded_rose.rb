@@ -66,3 +66,9 @@ class Item
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 end
+
+class BasicItem < Item; end
+class ConjuredItem < Item; end
+class AgedBrie < Item; end
+class Sulfuras < Item; end
+class BackstagePass < Item; end

@@ -43,11 +43,12 @@ describe GildedRose do
     let(:sell_in_change) { -1 }
     let(:min_quality) { 0 }
     let(:max_quality) { 50 }
-    let(:item) { Item.new(name, sell_in, quality) }
+    let(:item) { item_class.new(name, sell_in, quality) }
     let(:items) { [item] }
     subject! { described_class.new(items).update_quality }
 
     describe 'basic item' do
+      let(:item_class) { BasicItem }
       let(:name) { 'basic item' }
       let(:quality_change) { -1 }
 
@@ -64,6 +65,7 @@ describe GildedRose do
     end
 
     describe 'Conjured' do
+      let(:item_class) { ConjuredItem }
       let(:name) { 'Conjured' }
       let(:quality_change) { -2 }
 
@@ -80,6 +82,7 @@ describe GildedRose do
     end
 
     describe 'Aged Brie' do
+      let(:item_class) { AgedBrie }
       let(:name) { 'Aged Brie' }
       let(:quality_change) { 1 }
 
@@ -96,6 +99,7 @@ describe GildedRose do
     end
 
     describe 'Sulfuras, Hand of Ragnaros' do
+      let(:item_class) { Sulfuras }
       let(:name) { 'Sulfuras, Hand of Ragnaros' }
       let(:sell_in_change) { 0 }
       let(:quality_change) { 0 }
@@ -105,6 +109,7 @@ describe GildedRose do
     end
 
     describe 'Backstage passes to a TAFKAL80ETC concert' do
+      let(:item_class) { BackstagePass }
       let(:name) { 'Backstage passes to a TAFKAL80ETC concert' }
       let(:quality) { 0 }
 
