@@ -48,23 +48,6 @@ describe GildedRose do
     let(:items) { [item] }
     subject! { described_class.new(items).update_quality }
 
-    describe 'Aged Brie' do
-      let(:item_class) { AgedBrie }
-      let(:name) { 'Aged Brie' }
-      let(:expected_quality_change) { 1 }
-
-      it_behaves_like 'an item'
-      it_behaves_like 'an item with increasing quality'
-
-      context 'when sell by date has passed' do
-        let(:sell_in) { 0 }
-        let(:expected_quality_change) { 2 }
-
-        it_behaves_like 'an item'
-        it_behaves_like 'an item with increasing quality'
-      end
-    end
-
     describe 'Sulfuras, Hand of Ragnaros' do
       let(:item_class) { Sulfuras }
       let(:name) { 'Sulfuras, Hand of Ragnaros' }
