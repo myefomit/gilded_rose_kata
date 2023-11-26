@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require_relative 'item'
+require_relative 'basic_item'
 
-class BackstagePass < Item
-  MAX_QUALITY = 50
+class BackstagePass < BasicItem
+  private
 
-  def update_quality
-    @quality += quality_change
-    @quality = [@quality, MAX_QUALITY].min
-    @sell_in -= 1
+  def max_quality
+    50
   end
 
-  private
+  def check_quality_borders
+    [@quality, max_quality].min
+  end
 
   def quality_change
     return -@quality if @sell_in.zero?

@@ -3,11 +3,23 @@
 require_relative 'item'
 
 class BasicItem < Item
-  MIN_QUALITY = 0
-
   def update_quality
-    @quality -= @sell_in.positive? ? 1 : 2
-    @quality = [@quality, MIN_QUALITY].max
+    @quality += quality_change
+    @quality = check_quality_borders
     @sell_in -= 1
+  end
+
+  private
+
+  def min_quality
+    0
+  end
+
+  def check_quality_borders
+    [@quality, min_quality].max
+  end
+
+  def quality_change
+    @sell_in.positive? ? -1 : -2
   end
 end

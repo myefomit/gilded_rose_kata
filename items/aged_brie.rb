@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
-require_relative 'item'
+require_relative 'basic_item'
 
-class AgedBrie < Item
-  MAX_QUALITY = 50
+class AgedBrie < BasicItem
+  private
 
-  def update_quality
-    @quality -= @sell_in.positive? ? -1 : -2
-    @quality = [@quality, MAX_QUALITY].min
-    @sell_in -= 1
+  def max_quality
+    50
+  end
+
+  def check_quality_borders
+    [@quality, max_quality].min
+  end
+
+  def quality_change
+    @sell_in.positive? ? 1 : 2
   end
 end
