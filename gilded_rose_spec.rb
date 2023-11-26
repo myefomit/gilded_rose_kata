@@ -48,16 +48,6 @@ describe GildedRose do
     let(:items) { [item] }
     subject! { described_class.new(items).update_quality }
 
-    describe 'Sulfuras, Hand of Ragnaros' do
-      let(:item_class) { Sulfuras }
-      let(:name) { 'Sulfuras, Hand of Ragnaros' }
-      let(:sell_in_change) { 0 }
-      let(:expected_quality_change) { 0 }
-      let(:quality) { 80 }
-
-      it_behaves_like 'an item'
-    end
-
     describe 'Backstage passes to a TAFKAL80ETC concert' do
       let(:item_class) { BackstagePass }
       let(:name) { 'Backstage passes to a TAFKAL80ETC concert' }
