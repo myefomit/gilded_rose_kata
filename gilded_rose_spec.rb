@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require File.join(File.dirname(__FILE__), 'gilded_rose')
+Dir[File.join(File.dirname(__FILE__), 'items/*.rb')].each { |file| require file }
 
 shared_examples 'an item' do
   it 'does not change the name' do
