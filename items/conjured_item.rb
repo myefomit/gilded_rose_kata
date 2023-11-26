@@ -5,7 +5,7 @@ require_relative 'basic_item'
 class ConjuredItem < BasicItem
   private
 
-  def quality_delta
+  def quality_change
     -2
   end
 end
