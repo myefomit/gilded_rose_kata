@@ -5,7 +5,8 @@ require_relative 'item'
 class BasicItem < Item
   def update_quality
     @quality += quality_change
-    @quality = check_quality_borders
+    @quality = [@quality, min_quality].max
+    @quality = [@quality, max_quality].min
     @sell_in -= 1
   end
 
@@ -15,11 +16,15 @@ class BasicItem < Item
     0
   end
 
-  def check_quality_borders
-    [@quality, min_quality].max
+  def max_quality
+    50
+  end
+
+  def quality_delta
+    -1
   end
 
   def quality_change
-    @sell_in.positive? ? -1 : -2
+    @sell_in.positive? ? quality_delta : quality_delta * 2
   end
 end

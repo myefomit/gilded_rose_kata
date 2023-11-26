@@ -5,7 +5,7 @@ require_relative 'basic_item'
 class ConjuredItem < BasicItem
   private
 
-  def quality_change
-    @sell_in.positive? ? -2 : -4
+  def quality_delta
+    -2
   end
 end
