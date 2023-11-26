@@ -85,6 +85,14 @@ describe GildedRose do
 
       it_behaves_like 'an item'
       it_behaves_like 'an item with increasing quality'
+
+      context 'when sell by date has passed' do
+        let(:sell_in) { 0 }
+        let(:quality_change) { 2 }
+
+        it_behaves_like 'an item'
+        it_behaves_like 'an item with increasing quality'
+      end
     end
 
     describe 'Sulfuras, Hand of Ragnaros' do
