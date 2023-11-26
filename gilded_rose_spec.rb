@@ -13,13 +13,13 @@ shared_examples 'an item' do
   end
 
   it 'changes quality' do
-    expect(item.quality).to eq(quality + quality_change)
+    expect(item.quality).to eq(quality + expected_quality_change)
   end
 end
 
 shared_examples 'an item with decreasing quality' do
-  context 'when quality + quality_change < min_quality' do
-    let(:quality) { min_quality + quality_change.abs - 1 }
+  context 'when quality + expected_quality_change < min_quality' do
+    let(:quality) { min_quality + expected_quality_change.abs - 1 }
 
     it 'sets item quality to min_quality' do
       expect(item.quality).to eq(min_quality)
@@ -28,8 +28,8 @@ shared_examples 'an item with decreasing quality' do
 end
 
 shared_examples 'an item with increasing quality' do
-  context 'when quality + quality_change > max_quality' do
-    let(:quality) { max_quality - quality_change + 1 }
+  context 'when quality + expected_quality_change > max_quality' do
+    let(:quality) { max_quality - expected_quality_change + 1 }
 
     it 'sets item quality to max_quality' do
       expect(item.quality).to eq(max_quality)
@@ -51,14 +51,14 @@ describe GildedRose do
     describe 'basic item' do
       let(:item_class) { BasicItem }
       let(:name) { 'basic item' }
-      let(:quality_change) { -1 }
+      let(:expected_quality_change) { -1 }
 
       it_behaves_like 'an item'
       it_behaves_like 'an item with decreasing quality'
 
       context 'when sell by date has passed' do
         let(:sell_in) { 0 }
-        let(:quality_change) { -2 }
+        let(:expected_quality_change) { -2 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with decreasing quality'
@@ -68,14 +68,14 @@ describe GildedRose do
     describe 'Conjured' do
       let(:item_class) { ConjuredItem }
       let(:name) { 'Conjured' }
-      let(:quality_change) { -2 }
+      let(:expected_quality_change) { -2 }
 
       it_behaves_like 'an item'
       it_behaves_like 'an item with decreasing quality'
 
       context 'when sell by date has passed' do
         let(:sell_in) { 0 }
-        let(:quality_change) { -4 }
+        let(:expected_quality_change) { -4 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with decreasing quality'
@@ -85,14 +85,14 @@ describe GildedRose do
     describe 'Aged Brie' do
       let(:item_class) { AgedBrie }
       let(:name) { 'Aged Brie' }
-      let(:quality_change) { 1 }
+      let(:expected_quality_change) { 1 }
 
       it_behaves_like 'an item'
       it_behaves_like 'an item with increasing quality'
 
       context 'when sell by date has passed' do
         let(:sell_in) { 0 }
-        let(:quality_change) { 2 }
+        let(:expected_quality_change) { 2 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with increasing quality'
@@ -103,7 +103,7 @@ describe GildedRose do
       let(:item_class) { Sulfuras }
       let(:name) { 'Sulfuras, Hand of Ragnaros' }
       let(:sell_in_change) { 0 }
-      let(:quality_change) { 0 }
+      let(:expected_quality_change) { 0 }
       let(:quality) { 80 }
 
       it_behaves_like 'an item'
@@ -116,7 +116,7 @@ describe GildedRose do
 
       context 'when more than 10 days until concert' do
         let(:sell_in) { 11 }
-        let(:quality_change) { 1 }
+        let(:expected_quality_change) { 1 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with increasing quality'
@@ -124,7 +124,7 @@ describe GildedRose do
 
       context 'when 10 days or less' do
         let(:sell_in) { 10 }
-        let(:quality_change) { 2 }
+        let(:expected_quality_change) { 2 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with increasing quality'
@@ -132,7 +132,7 @@ describe GildedRose do
 
       context 'when 5 days or less' do
         let(:sell_in) { 5 }
-        let(:quality_change) { 3 }
+        let(:expected_quality_change) { 3 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with increasing quality'
@@ -141,7 +141,7 @@ describe GildedRose do
       context 'when after concert' do
         let(:sell_in) { 0 }
         let(:quality) { 42 }
-        let(:quality_change) { -42 }
+        let(:expected_quality_change) { -42 }
 
         it_behaves_like 'an item'
         it_behaves_like 'an item with decreasing quality'
