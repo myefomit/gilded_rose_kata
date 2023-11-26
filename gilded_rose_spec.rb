@@ -58,10 +58,23 @@ describe GildedRose do
         let(:sell_in) { 0 }
         let(:quality_change) { -2 }
 
-        it 'decreases quality twice as fast' do
-          expect(item.quality).to eq(quality + quality_change)
-        end
+        it_behaves_like 'an item'
+        it_behaves_like 'an item with decreasing quality'
+      end
+    end
 
+    describe 'Conjured' do
+      let(:name) { 'Conjured' }
+      let(:quality_change) { -2 }
+
+      it_behaves_like 'an item'
+      it_behaves_like 'an item with decreasing quality'
+
+      context 'when sell by date has passed' do
+        let(:sell_in) { 0 }
+        let(:quality_change) { -4 }
+
+        it_behaves_like 'an item'
         it_behaves_like 'an item with decreasing quality'
       end
     end
