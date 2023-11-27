@@ -6,6 +6,6 @@ class ConjuredItem < BasicItem
   private
 
   def quality_change
-    -2
+    super * 2
   end
 end
