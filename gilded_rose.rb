@@ -9,7 +9,25 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      BasicItem.new(item).update_quality
+      item_updater(item).update_quality
     end
+  end
+
+  private
+
+  def item_updater(item)
+    updaters = {
+      'Aged Brie' => AgedBrie,
+      'Backstage passes to a TAFKAL80ETC concert' => BackstagePass,
+      'Sulfuras, Hand of Ragnaros' => Sulfuras
+    }
+
+    updater = updaters[item.name]
+    updater ||= conjured?(item.name) ? ConjuredItem : BasicItem
+    updater.new(item)
+  end
+
+  def conjured?(name)
+    name.downcase.start_with? 'conjured'
   end
 end

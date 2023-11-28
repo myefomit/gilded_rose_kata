@@ -1,41 +1,70 @@
 # frozen_string_literal: true
 
 require File.join(File.dirname(__FILE__), '..', 'gilded_rose')
-Dir[File.join(File.dirname(__FILE__), '../items/*.rb')].each { |file| require file }
+require_relative '../items/item'
 
 describe GildedRose do
   describe '#update_quality' do
-    items =
+    let(:items) do
       [
         Item.new('dagger', 10, 20),
         Item.new('conjured dagger', 10, 20),
-        Item.new('Aged Brie (from cave)', -10, 50),
-        Item.new('Sulfuras, Hand of Someone', 0, 80),
-        Item.new('Backstage pass', 4, 25)
+        Item.new('Aged Brie', -10, 50),
+        Item.new('Sulfuras, Hand of Ragnaros', 0, 80),
+        Item.new('Backstage passes to a TAFKAL80ETC concert', 4, 25)
       ]
+    end
 
-    expected_items =
+    let(:expected_items) do
       [
         Item.new('dagger', 9, 19),
         Item.new('conjured dagger', 9, 18),
-        Item.new('Aged Brie (from cave)', -11, 50),
-        Item.new('Sulfuras, Hand of Someone', 0, 80),
-        Item.new('Backstage pass', 3, 28)
+        Item.new('Aged Brie', -11, 50),
+        Item.new('Sulfuras, Hand of Ragnaros', 0, 80),
+        Item.new('Backstage passes to a TAFKAL80ETC concert', 3, 28)
       ]
+    end
     subject! { described_class.new(items).update_quality }
 
-    items.zip(expected_items).each do |actual, expected|
-      it 'doesnt change item name' do
+    let(:actual) { items[index] }
+    let(:expected) { expected_items[index] }
+
+    shared_examples 'updates item' do
+      it 'updates item' do
         expect(actual.name).to eq(expected.name)
-      end
-
-      it 'updates sell_in correctly' do
         expect(actual.sell_in).to eq(expected.sell_in)
-      end
-
-      it 'updates quality correctly' do
         expect(actual.quality).to eq(expected.quality)
       end
+    end
+
+    context 'when basic item' do
+      let(:index) { 0 }
+
+      include_examples 'updates item'
+    end
+
+    context 'when conjured item' do
+      let(:index) { 1 }
+
+      include_examples 'updates item'
+    end
+
+    context 'when aged brie' do
+      let(:index) { 2 }
+
+      include_examples 'updates item'
+    end
+
+    context 'when sulfuras' do
+      let(:index) { 3 }
+
+      include_examples 'updates item'
+    end
+
+    context 'when backstage pass' do
+      let(:index) { 4 }
+
+      include_examples 'updates item'
     end
   end
 end
