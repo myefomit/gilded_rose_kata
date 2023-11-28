@@ -5,7 +5,7 @@ Dir[File.join(File.dirname(__FILE__), '../items/*.rb')].each { |file| require fi
 
 describe GildedRose do
   describe '#update_quality' do
-    let(:items) do
+    items =
       [
         Item.new('dagger', 10, 20),
         Item.new('conjured dagger', 10, 20),
@@ -13,9 +13,8 @@ describe GildedRose do
         Item.new('Sulfuras, Hand of Someone', 0, 80),
         Item.new('Backstage pass', 4, 25)
       ]
-    end
 
-    let(:expected_items) do
+    expected_items =
       [
         Item.new('dagger', 9, 19),
         Item.new('conjured dagger', 9, 18),
@@ -23,13 +22,18 @@ describe GildedRose do
         Item.new('Sulfuras, Hand of Someone', 0, 80),
         Item.new('Backstage pass', 3, 28)
       ]
-    end
     subject! { described_class.new(items).update_quality }
 
-    it 'does not crash' do
-      items.zip(expected_items).each do |actual, expected|
+    items.zip(expected_items).each do |actual, expected|
+      it 'doesnt change item name' do
         expect(actual.name).to eq(expected.name)
+      end
+
+      it 'updates sell_in correctly' do
         expect(actual.sell_in).to eq(expected.sell_in)
+      end
+
+      it 'updates quality correctly' do
         expect(actual.quality).to eq(expected.quality)
       end
     end
