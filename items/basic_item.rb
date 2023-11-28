@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
-require_relative 'item'
+class BasicItem
+  def initialize(item)
+    @item = item
+  end
 
-class BasicItem < Item
   def update_quality
-    @quality += quality_increase
-    @quality = ensure_quality_borders
-    @sell_in -= 1
+    @item.quality += quality_increase
+    @item.quality = ensure_quality_borders
+    @item.sell_in -= 1
   end
 
   private
@@ -24,11 +26,11 @@ class BasicItem < Item
   end
 
   def ensure_quality_borders
-    quality = [@quality, min_quality].max
+    quality = [@item.quality, min_quality].max
     [quality, max_quality].min
   end
 
   def quality_increase
-    @sell_in.positive? ? quality_change : quality_change * 2
+    @item.sell_in.positive? ? quality_change : quality_change * 2
   end
 end

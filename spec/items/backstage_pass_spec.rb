@@ -35,13 +35,20 @@ describe BackstagePass do
       it_behaves_like 'an item with increasing quality'
     end
 
-    context 'when after concert' do
+    context 'when just after concert' do
       let(:sell_in) { 0 }
       let(:quality) { 42 }
       let(:expected_quality_change) { -42 }
 
       it_behaves_like 'an item'
       it_behaves_like 'an item with decreasing quality'
+    end
+
+    context 'when 1 day after concert' do
+      let(:sell_in) { -1 }
+      let(:expected_quality_change) { 0 }
+
+      it_behaves_like 'an item'
     end
   end
 end
