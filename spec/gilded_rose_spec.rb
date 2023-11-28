@@ -7,21 +7,21 @@ describe GildedRose do
   describe '#update_quality' do
     let(:items) do
       [
-        BasicItem.new('dagger', 10, 20),
-        ConjuredItem.new('conjured dagger', 10, 20),
-        AgedBrie.new('Aged Brie (from cave)', -10, 50),
-        Sulfuras.new('Sulfuras, Hand of Someone', 0, 80),
-        BackstagePass.new('Backstage pass', 4, 25)
+        Item.new('dagger', 10, 20),
+        Item.new('conjured dagger', 10, 20),
+        Item.new('Aged Brie (from cave)', -10, 50),
+        Item.new('Sulfuras, Hand of Someone', 0, 80),
+        Item.new('Backstage pass', 4, 25)
       ]
     end
 
     let(:expected_items) do
       [
-        BasicItem.new('dagger', 9, 19),
-        ConjuredItem.new('conjured dagger', 9, 18),
-        AgedBrie.new('Aged Brie (from cave)', -11, 50),
-        Sulfuras.new('Sulfuras, Hand of Someone', 0, 80),
-        BackstagePass.new('Backstage pass', 3, 28)
+        Item.new('dagger', 9, 19),
+        Item.new('conjured dagger', 9, 18),
+        Item.new('Aged Brie (from cave)', -11, 50),
+        Item.new('Sulfuras, Hand of Someone', 0, 80),
+        Item.new('Backstage pass', 3, 28)
       ]
     end
     subject! { described_class.new(items).update_quality }

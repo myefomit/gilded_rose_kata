@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'item'
+require_relative 'basic_item'
 
-class Sulfuras < Item
+class Sulfuras < BasicItem
   def update_quality; end
 end
